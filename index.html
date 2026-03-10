@@ -1,204 +1,408 @@
 <!DOCTYPE html>
 <html lang="da">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Får Socialdemokratiet et gratis mandat?</title>
 
-<title>Får Socialdemokratiet et gratis mandat?</title>
+  <style>
+    :root{
+      --bg:#0a0f0a;
+      --bg2:#071107;
+      --text:#9dff9d;
+      --text-dim:#73d873;
+      --text-soft:#b8ffb8;
+      --line:#2e6b2e;
+      --panel:#0d170d;
+      --panel-2:#101c10;
+      --accent:#d8ffd8;
+      --warning:#f6ff8f;
+    }
 
-<style>
+    *{
+      box-sizing:border-box;
+    }
 
-body{
-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-margin:0;
-background:#fafafa;
-color:#222;
-line-height:1.6;
-}
+    html{
+      scroll-behavior:smooth;
+    }
 
-.container{
-max-width:900px;
-margin:auto;
-padding:40px 20px;
-background:white;
-}
+    body{
+      margin:0;
+      font-family: "Courier New", Courier, monospace;
+      background:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+        radial-gradient(circle at top, #112211 0%, var(--bg) 45%, #040704 100%);
+      background-size: 100% 3px, 3px 100%, cover;
+      color:var(--text);
+      line-height:1.65;
+      letter-spacing:0.1px;
+    }
 
-h1{
-font-size:44px;
-margin-bottom:10px;
-}
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          rgba(255,255,255,0.035) 0px,
+          rgba(255,255,255,0.035) 1px,
+          transparent 2px,
+          transparent 4px
+        );
+      opacity:0.2;
+      mix-blend-mode:screen;
+    }
 
-.subtitle{
-font-size:20px;
-color:#555;
-margin-bottom:40px;
-}
+    .wrap{
+      max-width:980px;
+      margin:0 auto;
+      padding:28px 18px 80px;
+    }
 
-h2{
-margin-top:50px;
-font-size:28px;
-}
+    .terminal{
+      border:2px solid var(--line);
+      background:linear-gradient(180deg, rgba(10,20,10,0.92), rgba(7,12,7,0.96));
+      box-shadow:
+        0 0 0 1px rgba(157,255,157,0.08) inset,
+        0 0 30px rgba(80,255,80,0.08);
+    }
 
-p{
-font-size:18px;
-}
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      padding:10px 14px;
+      border-bottom:1px solid var(--line);
+      background:var(--panel);
+      color:var(--text-dim);
+      font-size:13px;
+      text-transform:uppercase;
+    }
 
-.highlight{
-background:#f3f6ff;
-padding:20px;
-border-left:4px solid #3b5cff;
-margin:30px 0;
-font-size:20px;
-}
+    .content{
+      padding:22px 22px 32px;
+    }
 
-.figure{
-margin:40px 0;
-}
+    .prompt{
+      color:var(--accent);
+      margin-bottom:10px;
+      font-size:15px;
+    }
 
-img{
-width:100%;
-border:1px solid #ddd;
-}
+    .prompt::before{
+      content:"C:\\VALG\\ANALYSE> ";
+      color:var(--warning);
+    }
 
-.caption{
-font-size:14px;
-color:#666;
-margin-top:6px;
-}
+    h1,h2,h3{
+      margin:0 0 14px;
+      line-height:1.2;
+      color:var(--accent);
+      font-weight:700;
+    }
 
-.footer{
-margin-top:60px;
-padding-top:20px;
-border-top:1px solid #eee;
-font-size:14px;
-color:#777;
-}
+    h1{
+      font-size:clamp(34px, 6vw, 62px);
+      text-transform:uppercase;
+      letter-spacing:1px;
+      margin-bottom:12px;
+    }
 
-</style>
+    h2{
+      font-size:26px;
+      margin-top:48px;
+      padding-top:8px;
+      border-top:1px solid rgba(157,255,157,0.2);
+    }
+
+    p{
+      margin:0 0 18px;
+      font-size:18px;
+      color:var(--text-soft);
+    }
+
+    .lede{
+      font-size:23px;
+      color:var(--accent);
+      max-width:880px;
+      margin-bottom:22px;
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:14px;
+      margin:26px 0 28px;
+    }
+
+    .stat{
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, var(--panel), var(--panel-2));
+      padding:16px;
+      min-height:130px;
+    }
+
+    .stat .label{
+      font-size:13px;
+      text-transform:uppercase;
+      color:var(--text-dim);
+      margin-bottom:8px;
+    }
+
+    .stat .value{
+      font-size:42px;
+      line-height:1;
+      color:var(--warning);
+      margin-bottom:10px;
+      font-weight:700;
+    }
+
+    .stat .sub{
+      font-size:15px;
+      color:var(--text-soft);
+    }
+
+    .box{
+      border-left:4px solid var(--warning);
+      background:rgba(246,255,143,0.06);
+      padding:18px 18px 16px;
+      margin:28px 0;
+    }
+
+    .box strong{
+      color:var(--warning);
+    }
+
+    .figure{
+      margin:28px 0 36px;
+      padding:14px;
+      border:1px solid var(--line);
+      background:#0a120a;
+    }
+
+    .figure img{
+      width:100%;
+      height:auto;
+      display:block;
+      border:1px solid #234923;
+      background:#fff;
+      filter:contrast(1.02);
+    }
+
+    .caption{
+      font-size:14px;
+      color:var(--text-dim);
+      margin-top:10px;
+    }
+
+    .divider{
+      height:1px;
+      background:linear-gradient(90deg, transparent, var(--line), transparent);
+      margin:34px 0;
+    }
+
+    .bullets{
+      margin:18px 0 22px 0;
+      padding:0;
+      list-style:none;
+    }
+
+    .bullets li{
+      position:relative;
+      padding-left:22px;
+      margin-bottom:12px;
+      font-size:18px;
+      color:var(--text-soft);
+    }
+
+    .bullets li::before{
+      content:">";
+      position:absolute;
+      left:0;
+      color:var(--warning);
+      font-weight:700;
+    }
+
+    .footer{
+      margin-top:54px;
+      padding-top:18px;
+      border-top:1px solid var(--line);
+      font-size:14px;
+      color:var(--text-dim);
+    }
+
+    .blink{
+      display:inline-block;
+      width:10px;
+      margin-left:5px;
+      animation:blink 1s steps(1) infinite;
+    }
+
+    @keyframes blink{
+      50%{opacity:0;}
+    }
+
+    a{
+      color:var(--warning);
+    }
+
+    @media (max-width:700px){
+      .content{
+        padding:18px 16px 26px;
+      }
+
+      p{
+        font-size:17px;
+      }
+
+      .lede{
+        font-size:20px;
+      }
+
+      .stat .value{
+        font-size:36px;
+      }
+    }
+  </style>
 </head>
-
-
 <body>
+  <div class="wrap">
+    <div class="terminal">
+      <div class="topbar">
+        <div>Valganalyse Terminal v1.0</div>
+        <div>etgratismandat.martinvlarsen.com</div>
+      </div>
 
-<div class="container">
+      <div class="content">
+        <div class="prompt">run overhaeng.exe<span class="blink">_</span></div>
 
-<h1>Får Socialdemokratiet et gratis mandat?</h1>
+        <h1>Får Socialdemokratiet et gratis mandat?</h1>
 
-<div class="subtitle">
-En teknisk detalje i valgloven kan i nogle tilfælde give det største parti et ekstra mandat i Folketinget.
-</div>
+        <p class="lede">
+          En teknisk detalje i valgloven kan i nogle tilfælde give landets største parti et ekstra mandat i Folketinget.
+          Og ja: Hvis det sker næste gang, kan det meget vel være Socialdemokratiet, der får gevinsten.
+        </p>
 
+        <div class="stats">
+          <div class="stat">
+            <div class="label">Estimeret sandsynlighed</div>
+            <div class="value">5–16%</div>
+            <div class="sub">for mindst ét overhængsmandat i simulationerne</div>
+          </div>
 
-<p>
-Det danske valgsystem er designet til at være meget proportionalt.
-Men en bestemt regel i opgørelsen af <strong>kredsmandater</strong> betyder,
-at det største parti i sjældne tilfælde kan få et mandat,
-som det egentlig ikke har stemmer til.
-</p>
+          <div class="stat">
+            <div class="label">Typisk størrelse</div>
+            <div class="value">1</div>
+            <div class="sub">mandat, hvis det først opstår</div>
+          </div>
 
-<p>
-Det kaldes et <strong>overhængsmandat</strong>.
-</p>
+          <div class="stat">
+            <div class="label">Politisk pointe</div>
+            <div class="value">Ikke småting</div>
+            <div class="sub">i et tæt valg kan ét mandat være forskellen på flertal og mindretal</div>
+          </div>
+        </div>
 
+        <div class="box">
+          <strong>Det centrale point:</strong> Det her er ikke bare en obskur teknikalitet for valgnørder.
+          En sandsynlighed på op til 16 procent er høj nok til, at det bør tages alvorligt i et valg, hvor blokke og regeringsmuligheder kan afgøres af ganske få mandater.
+        </div>
 
-<div class="highlight">
-Simulationer viser, at sandsynligheden for mindst ét overhængsmandat ligger omkring
-<strong>5–16 procent</strong>.
-<br><br>
-I langt de fleste tilfælde vil der kun være tale om <strong>ét mandat</strong>.
-</div>
+        <h2>Hvad er problemet?</h2>
 
+        <p>
+          Det danske valgsystem er samlet set meget proportionalt. Men ikke perfekt. Kredsmandaterne fordeles med
+          <strong>d’Hondts metode</strong>, som har en lille fordel til store partier.
+        </p>
 
-<h2>Hvorfor kan det ske?</h2>
+        <p>
+          I særlige situationer kan det føre til, at det største parti vinder flere kredsmandater, end partiet egentlig er berettiget til ud fra sit samlede stemmetal på landsplan.
+          Når det først er sket, kan systemet ikke trække de mandater tilbage igen.
+        </p>
 
-<p>
-Kredsmandaterne i Danmark fordeles med den såkaldte
-<strong>d’Hondts metode</strong>.
-Metoden har en lille tendens til at favorisere store partier.
-</p>
+        <p>
+          Resultatet er et <strong>overhængsmandat</strong>: et mandat, der i praksis lægger sig oven i den ellers proportionale fordeling.
+        </p>
 
-<p>
-Hvis et parti vinder flere kredsmandater end det egentlig er berettiget til
-ud fra sit samlede stemmetal,
-kan det ende med ét mandat mere end proportionaliteten tilsiger.
-</p>
+        <ul class="bullets">
+          <li>Det er ikke det mest sandsynlige udfald.</li>
+          <li>Men det er heller ikke så usandsynligt, at det kan afskrives som teori.</li>
+          <li>Og hvis det sker, vil det typisk være nok med ét mandat til at skabe reel politisk effekt.</li>
+        </ul>
 
-<p>
-Normalt korrigerer tillægsmandater dette.
-Men hvis et parti allerede har fået "for mange" kredsmandater,
-kan systemet ikke trække dem tilbage.
-</p>
+        <h2>Hvor sandsynligt er det?</h2>
 
+        <p>
+          Simulationerne peger på, at sandsynligheden for mindst ét overhængsmandat ligger omkring <strong>5–16 procent</strong>, afhængigt af forudsætningerne.
+          Det er med andre ord ikke et særtilfælde, man skal være ekstremt uheldig eller heldig for at observere.
+        </p>
 
-<h2>Hvor sandsynligt er det?</h2>
+        <div class="figure">
+          <img src="figure1.png" alt="Graf over sandsynlighed for overhængsmandater">
+          <div class="caption">
+            Simuleret sandsynlighed for overhængsmandater. Pointen er enkel: udfaldet er ikke det mest sandsynlige, men det er sandsynligt nok til at have politisk betydning.
+          </div>
+        </div>
 
-<div class="figure">
-<img src="figure1.png">
-<div class="caption">
-Simuleret sandsynlighed for overhængsmandater.
-</div>
-</div>
+        <h2>Hvor meget kan det betyde?</h2>
 
+        <p>
+          I langt de fleste tilfælde er der tale om <strong>ét mandat</strong>. Men i dansk politik er ét mandat ofte alt andet end lille.
+          Ét mandat kan være forskellen på, hvem der kan samle et flertal, hvem der står stærkest i forhandlinger, og hvordan valgets resultat bliver læst politisk.
+        </p>
 
-<h2>Hvor mange mandater kan der være tale om?</h2>
+        <div class="figure">
+          <img src="figure2.png" alt="Graf over antal overhængsmandater">
+          <div class="caption">
+            Fordeling af antal overhængsmandater i simulationerne. Hvis overhænget opstår, er det som regel ét mandat. Det er netop det, der gør spørgsmålet politisk skarpt: små forskelle kan få store konsekvenser.
+          </div>
+        </div>
 
-<div class="figure">
-<img src="figure2.png">
-<div class="caption">
-Fordeling af antal overhængsmandater i simulationer.
-</div>
-</div>
+        <h2>Det ironiske ved historien</h2>
 
+        <p>
+          Den regel, der nu kan ende med at give <strong>Socialdemokratiet</strong> et ekstra mandat, blev ikke båret igennem af Socialdemokratiet.
+        </p>
 
-<h2>Det politiske paradoks</h2>
+        <p>
+          Tværtimod stammer den afgørende ændring fra valglovsændringen i 2006, fremsat af <strong>Lars Løkke Rasmussen</strong> som indenrigs- og sundhedsminister og vedtaget af et flertal med <strong>Venstre, Dansk Folkeparti og Konservative</strong>.
+        </p>
 
-<p>
-Reglen stammer fra en ændring af valgloven i 2006.
-</p>
+        <p>
+          Under behandlingen blev en spærreregel fjernet, som ellers skulle mindske risikoen for, at et parti kunne ende med flere mandater, end stemmetallet egentlig berettigede til.
+          Flere partier advarede dengang mod, at den løsning kunne give overrepræsentation af store partier.
+        </p>
 
-<p>
-Ændringen blev fremsat af indenrigs- og sundhedsminister
-<strong>Lars Løkke Rasmussen</strong> og vedtaget af et flertal bestående af
-<strong>Venstre, Dansk Folkeparti og Konservative</strong>.
-</p>
+        <div class="box">
+          <strong>Det politiske paradoks:</strong> En regel, som et V-ledet flertal stemte igennem under Lars Løkke Rasmussen, kan nu ende med at give et ekstra mandat til Socialdemokratiet.
+          Det gør ikke spørgsmålet mindre interessant. Tværtimod.
+        </div>
 
-<p>
-Under udvalgsbehandlingen fjernede flertallet en spærreregel,
-som ellers skulle forhindre,
-at et parti kunne få flere mandater end dets stemmetal tilsiger.
-</p>
+        <h2>Så hvad er konklusionen?</h2>
 
-<p>
-Flere partier advarede dengang om,
-at dette kunne føre til overrepræsentation af store partier.
-</p>
+        <p>
+          Konklusionen er ikke, at Socialdemokratiet med sikkerhed får et gratis mandat. Konklusionen er, at reglen
+          <strong>reelt kan producere det udfald</strong>, og at sandsynligheden er høj nok til, at man ikke bare kan slå det hen.
+        </p>
 
-<div class="highlight">
-Ironisk nok kan reglen i dag vise sig at give et ekstra mandat
-til netop <strong>Socialdemokratiet</strong>,
-hvis partiet bliver landets største.
-</div>
+        <p>
+          Hvis næste valg bliver tæt, er det ikke svært at forestille sig, at netop dette ene mandat pludselig bliver meget konkret.
+          Så er spørgsmålet ikke længere bare teknisk. Så er det et spørgsmål om magt.
+        </p>
 
+        <div class="divider"></div>
 
-<h2>Hvor meget kan det betyde?</h2>
-
-<p>
-Et enkelt mandat kan i nogle situationer være afgørende
-for, hvem der kan danne regering.
-</p>
-
-<p>
-Derfor kan selv en relativt lille sandsynlighed
-for et ekstra mandat få politisk betydning i et tæt valg.
-</p>
-
-
-<div class="footer">
-Side lavet af Martin Vinæs Larsen.<br>
-Grafer og simulationer baseret på analyser af det danske valgsystem.
-</div>
-
-</div>
-
+        <div class="footer">
+          Side lavet af Martin Vinæs Larsen.<br>
+          Grafer og tabeller bygger på analyser af det danske valgsystem og simulationer af risikoen for overhængsmandater.<br>
+          Billederne på siden skal ligge som <strong>figure1.png</strong> og <strong>figure2.png</strong> i samme mappe som <strong>index.html</strong>.
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
